@@ -1,0 +1,7 @@
+{
+  "id": "com.chad.snappy_turns",
+  "name": "Snappy Turns",
+  "version": "1.0.0",
+  "author": "Chad",
+  "description": "Faster, more responsive turning for Link and Wolf Link. Speeds up how quickly Link faces the stick direction and optionally replaces turnaround and skid animations with an instant pivot. Each form can be toggled separately."
+}
