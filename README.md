@@ -27,7 +27,7 @@ Only ordinary free movement is changed. Z-targeting, aiming, swimming, climbing,
 
 ## Installation
 
-1. Download `snappy_turns.dusk` from [Releases](../../releases). The release bundle contains libraries for Windows (x64/ARM64), Linux (x86_64/ARM64, including Steam Deck), macOS (Apple Silicon/Intel), Android and iOS.
+1. Download [`snappy_turns.dusk`](snappy_turns.dusk) from this repo. That file is the mod: one bundle with libraries for Windows (x64/ARM64), Linux (x86_64/ARM64, including Steam Deck), macOS (Apple Silicon/Intel), Android and iOS. Tagged releases attach the same file.
 2. Open Dusklight's data folder (**Settings → Interface → Open Data Folder**) and place the file in the `mods` folder.
 3. Enable **Snappy Turns** in the in-game mod manager.
 

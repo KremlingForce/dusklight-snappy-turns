@@ -1,6 +1,6 @@
 build/
 dusklight/
 *.dusk
-!release/*.dusk
+!snappy_turns.dusk
 .vscode/
 .idea/

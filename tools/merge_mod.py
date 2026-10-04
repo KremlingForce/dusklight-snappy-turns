@@ -25,6 +25,14 @@ def fail(message: str) -> None:
     sys.exit(1)
 
 
+def entry_bytes(archive: zipfile.ZipFile, name: str) -> bytes:
+    data = archive.read(name)
+    # Windows hosts store mod.json with CRLF. The text is the same; compare and stage LF.
+    if name == "mod.json":
+        data = data.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return data
+
+
 def entry_names(archive: zipfile.ZipFile) -> list[str]:
     names = [info.filename for info in archive.infolist() if not info.is_dir()]
     for name in names:
@@ -58,7 +66,7 @@ def main() -> None:
                     fail(f"unexpected lib entry in {path}: {name}")
                 platforms.add(parts[1])
                 continue
-            digest = hashlib.sha256(archive.read(name)).hexdigest()
+            digest = hashlib.sha256(entry_bytes(archive, name)).hexdigest()
             seen = content_hashes.get(name)
             if seen is None:
                 content_hashes[name] = (digest, path)
@@ -79,8 +87,12 @@ def main() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         stage = Path(tmp)
         # Non-lib content from the first input (verified identical), lib/ from each source.
-        archives[0].extractall(stage, members=[n for n in entry_names(archives[0])
-                                               if not n.startswith("lib/")])
+        for name in entry_names(archives[0]):
+            if name.startswith("lib/"):
+                continue
+            dest = stage / name
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_bytes(entry_bytes(archives[0], name))
         for archive in archives:
             archive.extractall(stage, members=[n for n in entry_names(archive)
                                                if n.startswith("lib/")])
